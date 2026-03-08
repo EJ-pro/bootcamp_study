@@ -1,11 +1,12 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
 # 1. **DataFrame 생성 및 기본 정보 확인**
 #    - 딕셔너리로부터 DataFrame 생성 (8명의 직원 데이터)
 #    - 속성: 이름, 나이, 도시, 급여, 부서, 경력
 #    - `df.info()`, `df.describe()` 사용하여 데이터 개요 파악
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+np.random.seed(42)
 
 data = {
         'name': ['김철수', '이영희', '박민수', '최지영', '정태현', '한소희', '윤상호', '배수진'],
@@ -15,16 +16,19 @@ data = {
         'department': ['개발', '마케팅', '개발', '기획', '개발', '마케팅', '기획', '개발'],
         'experience': [2, 5, 8, 3, 12, 6, 4, 3]
     }
+df = pd.DataFrame(data)
+    
 if __name__ == "__main__":
-    print("DataFrame :")
+    print("DataFrame :",df.head())
 
-    print("\nInfo:")
+    print("\nInfo:",df.info())
 
-    print("\nDescribe :")
+    print("\nDescribe :",df.describe())
 
-    print("\nDescribe (all) :")
+    print("\nDescribe (all) :",df.describe(include='all'))
+    print()
 
-
+#answer2_2
 # 2. **단일 조건 필터링**
 #    - 나이가 30 이상인 직원 추출
 #    - 특정 도시(예: 서울) 거주 직원 찾기
@@ -32,31 +36,43 @@ if __name__ == "__main__":
     
 if __name__ == "__main__":
     print("나이가 30 이상인 직원 : ")
+    print(df[df['age'] >= 30])
 
     print("\n서울에 거주하는 직원 : ")
+    print(df[df['city'] == '서울'])
 
     print("\n급여가 4000 이상인 직원 : ")
+    print(df[df['salary'] >= 4000])
 
-
+# answer2_3
 # 3. **복합 조건 필터링**
 #    - AND 연산: 서울 거주 **AND** 급여 4000 이상
 #    - OR 연산: 개발팀 **OR** 급여 4500 이상
 #    - NOT 연산: 개발팀이 아닌 직원
     
-print("서울 거주 AND 급여 4000 이상 : ")
+if __name__ == "__main__":
+    print("서울 거주 AND 급여 4000 이상 : ")
+    print(df[(df['city'] == '서울') & (df['salary'] >= 4000)])
 
-print("\n개발팀 OR 급여 4500 이상 : ")
+    print("\n개발팀 OR 급여 4500 이상 : ")
+    print(df[(df['department'] == '개발') | (df['salary'] >= 4500)])
 
-print("\n개발팀이 아닌 직원 : ")
+    print("\n개발팀이 아닌 직원 : ")
+    print(df[~(df['department'] == '개발')])
+    print()
 
-
+# answer2_4
 # 4. **기본 통계 및 집계**
 #    - 부서별 평균 급여 계산
 #    - 도시별 직원 수
 #    - 경력 통계 분석
+    
+if __name__ == "__main__":
+    print("부서별 평균 급여 : ")
+    print(df.groupby('department')['salary'].mean())
 
-print("부서별 평균 급여 : ")
+    print("\n도시별 직원 수 : ")
+    print(df['city'].value_counts())
 
-print("\n도시별 직원 수 : ")
-
-print("\n경력 통계 분석 : ")
+    print("\n경력 통계 분석 : ")
+    print(df['experience'].describe())
