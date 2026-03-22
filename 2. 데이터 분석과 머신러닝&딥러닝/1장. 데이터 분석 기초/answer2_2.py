@@ -14,6 +14,7 @@ data = {
         'experience': [2, 5, 8, 3, 12, 6, 4, 3]
     }
 
+np.random.seed(42)
 df = pd.DataFrame(data)
 
 # 2. **단일 조건 필터링**
